@@ -5,35 +5,47 @@
 var justify = function(str, len) {
   // Your code goes here
   const arrStrings = [];
-  const lenString = str.length;
   let currPosition = 0;
-  while (currPosition < lenString) {
-    let currPositionDiv = currPosition + len;
+  while (currPosition < str.length) {
     str[currPosition] === " " && currPosition++;
+    let currPositionDiv = currPosition + len;
     const currString = str.substring(currPosition, currPositionDiv);
     let divSpace = currString.length;
     if (str[currPositionDiv] === " ") {
-      arrStrings.push({ str: currString, space: divSpace });
+      arrStrings.push(currString);
     } else {
       divSpace =
-        currString.lastIndexOf(" ") === -1 || currPosition + 30 > lenString
+        currString.lastIndexOf(" ") === -1 || currPositionDiv >= str.length
           ? currString.length
           : currString.lastIndexOf(" ");
-      arrStrings.push({
-        str: currString.substring(0, divSpace),
-        space: divSpace
-      });
+      arrStrings.push(currString.substring(0, divSpace));
     }
     currPosition = currPosition + divSpace;
   }
-  // извлекаем первую порцию
-
-  // ищем пробел
-  // сдвигаем текущую позицию
-  // помещаем в массив
-  console.log(arrStrings);
+  return arrStrings
+    .map((string, index) => {
+      const space = " ";
+      const colSpaces = len - string.length;
+      const arrWords = string.split(" ");
+      const colSpacesWord = arrWords.length - 1;
+      const spaceByWord = Math.trunc(colSpaces / colSpacesWord);
+      const spaceByWordExt = colSpaces % colSpacesWord;
+      const arrSpaces = [];
+      for (let i = 0; i < colSpacesWord; i++) {
+        if (index === arrStrings.length - 1) {
+          arrSpaces.push(0);
+        } else {
+          arrSpaces.push(spaceByWord + (spaceByWordExt - i > 0 ? 1 : 0));
+        }
+      }
+      const words = arrWords.map(
+        (word, index) => word + space.repeat(arrSpaces[index])
+      );
+      return words.join(" ");
+    })
+    .join("\n");
 };
 
 var str =
-  "Donec congue arcu lorem, ut ti ncidunt justo tempor quis. Morbi tincidunt id felis a condimentum. Aenean eleifend massa ut sodales dictum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec gravida elit ac sapien interdum efficitur. Morbi eleifend bibendum turpis ut suscipit. Nulla posuere, tellus feugiat egestas hendrerit, ligula neque sollicitudin urna, a convallis neque erat ut mi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam erat volutpat. Vestibulum ac tellus pharetra, tincidunt augue eu, vehicula nisl. Pellentesque venenatis vestibulum ante ut sollicitudin. Morbi porttitor sem et ex lobortis posuere. Fusce ultricies, tellus a tempor volutpat, nulla magna malesuada mi, vel dapibus arcu est ultricies nulla. Praesent elit lectus, tincidunt quis nibh condimentum, sollicitudin molestie augue. Praesent mattis vestibulum cursus. Sed congue neque gravida, dapibus purus quis, bibendum est.";
-justify(str, 30);
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sagittis dolor mauris, at elementum ligula tempor eget. In quis rhoncus nunc, at aliquet orci. Fusce at dolor sit amet felis suscipit tristique. Nam a imperdiet tellus. Nulla eu vestibulum urna. Vivamus tincidunt suscipit enim, nec ultrices nisi volutpat ac. Maecenas sit amet lacinia arcu, non dictum justo. Donec sed quam vel risus faucibus euismod. Suspendisse rhoncus rhoncus felis at fermentum. Donec lorem magna, ultricies a nunc sit amet, blandit fringilla nunc. In vestibulum velit ac felis rhoncus pellentesque. Mauris at tellus enim. Aliquam eleifend tempus dapibus. Pellentesque commodo, nisi sit amet hendrerit fringilla, ante odio porta lacus, ut elementum justo nulla et dolor.";
+console.log(justify(str, 15));
