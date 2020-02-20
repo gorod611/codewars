@@ -1,9 +1,14 @@
 function duplicateCount(text) {
-  const arrString = Array.from(text).reduce((acc, letter) => {
-    acc[letter.toUpperCase()] = (acc[letter.toUpperCase()] || 0) + 1;
-    return acc;
-  }, {});
-
-  return Object.keys(arrString).filter(key => arrString[key] > 1).length;
+  return text
+    .split(" ")
+    .reduce((acc, word) => {
+      acc.includes(word) || acc.push(word);
+      return acc;
+    }, [])
+    .join(" ");
 }
-console.log(duplicateCount("55sdfg75"));
+console.log(
+  duplicateCount(
+    "alpha beta beta gamma gamma gamma delta alpha beta beta gamma gamma gamma delta"
+  )
+);
