@@ -1,3 +1,11 @@
-const formatDuration = require("./tasks/20210831-human-readable-duration-format/index");
+const traverseTCPStates = require("./tasks/20210901-fsm/index");
 
-console.log(formatDuration(4564356734));
+console.log(
+  traverseTCPStates([
+    "APP_PASSIVE_OPEN",
+    "RCV_SYN",
+    "RCV_ACK",
+    "APP_CLOSE",
+    "APP_SEND",
+  ])
+);
